@@ -1,6 +1,17 @@
 import mongoose, {model, Schema} from 'mongoose'
+import dotenv from 'dotenv'
 
-mongoose.connect("mongodb+srv://parthmandawaria:b61pw2YMInytHbpf@cluster0.4wxtd.mongodb.net/second-brain")
+// Initialised dotenv
+dotenv.config()
+
+const mongoURL = process.env.MONGO_URL
+
+if (!mongoURL) {
+    throw new Error('MONGO_URL environment variable is not defined')
+}
+mongoose.connect(mongoURL)
+.then(() => console.log('Connected to MongoDB'))
+.catch((err) => console.error('MongoDB connection error:', err))
 
 const UserSchema = new Schema({
     username: {type: String, unique: true},
